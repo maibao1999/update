@@ -105,5 +105,18 @@ public class DAOdia {
 		return n>0;
         
     }
+             public boolean deletedia(String ma) {
+			Connection con = Database.getInstance().getConnection();
+			PreparedStatement stmt = null;
+			int n = 0;
+			try {
+				stmt = con.prepareStatement("delete from dia where madia = ?");
+				stmt.setString(1, ma);
+				n = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return n > 0; 
+    }
      
 }

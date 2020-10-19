@@ -6,11 +6,13 @@
 package Giaodien;
 
 import ConnectDB.Database;
+import DAO.DAOcthd;
 import DAO.DAOdia;
 import DAO.DAOhoadon;
 import DAO.DAOkhachhang;
 import DAO.DAOloai;
 import DAO.DAOtieude;
+import Entity.Chitiethoadon;
 import Entity.Dia;
 import Entity.Hoadon;
 import Entity.Khachhang;
@@ -36,7 +38,7 @@ public class Admin extends javax.swing.JFrame {
      DAOloai dsl=new DAOloai();
      DAOkhachhang dskh=new DAOkhachhang();
      DAOhoadon dshd=new DAOhoadon();
-     
+     DAOcthd dscthd = new DAOcthd();
      
     public Admin() {
         initComponents();
@@ -502,11 +504,6 @@ public class Admin extends javax.swing.JFrame {
         });
 
         txtmatieude.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtmatieude.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtmatieudeActionPerformed(evt);
-            }
-        });
         txtmatieude.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtmatieudeKeyReleased(evt);
@@ -730,11 +727,6 @@ public class Admin extends javax.swing.JFrame {
         jLabel26.setText("Trạng thái");
 
         txtmadia.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtmadia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtmadiaActionPerformed(evt);
-            }
-        });
         txtmadia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtmadiaKeyReleased(evt);
@@ -803,14 +795,11 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(messloitieudedia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbbtrangthaidia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(messtrangthaidia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbbtrangthaidia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(messtrangthaidia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         quanlydia.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 860, 140));
@@ -1945,21 +1934,54 @@ public class Admin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void txtmatieudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmatieudeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtmatieudeActionPerformed
-
     private void txtsoluongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsoluongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtsoluongActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton16ActionPerformed
+           int row = tablequanlydia.getSelectedRow();
+     
+        if (row >= 0) {
+            int thongbao;
+            thongbao = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa", "Chú ý", JOptionPane.YES_OPTION);
+            if (thongbao != 1) {
+                String madia = (String) tablequanlydia.getValueAt(row, 0);
+             
+                
+             
+                int a = 0;
 
-    private void txtmadiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmadiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtmadiaActionPerformed
+                List<Chitiethoadon> list = new ArrayList<>();
+                list = dscthd.doctubang();
+                for (int i = 0; i < list.size(); i++) {
+                    if (madia.equalsIgnoreCase(list.get(i).getMadia().getMadia())) {
+                        a = i;
+                    }
+                }
+                if (a == 0) {
+                    if (dsd.deletedia(madia)) { 
+                        datamodel2.removeRow(row);
+                        JOptionPane.showMessageDialog(this, "Xóa thành công");
+                        
+                        txtmadia.setText("");
+                        txtmatieude.setEditable(true);
+                       
+                       
+                        cbbtieude.setSelectedIndex(0);
+                        cbbtrangthai.setEditable(true);
+                      
+                        cbbtrangthaidia.setSelectedIndex(0);
+                        cbbtrangthaidia.setEditable(true);
+                         
+                    }
+                    }else {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa");
+                       }
+            }
+        } else 
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng cần xóa");
+        
+    }//GEN-LAST:event_jButton16ActionPerformed
 
     private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
       int thongbao = JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát", "Chú ý", JOptionPane.YES_OPTION);

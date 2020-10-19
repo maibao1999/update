@@ -2013,43 +2013,37 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void btthemdiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btthemdiaActionPerformed
-  /*          String ma = txtmatieude.getText();
-        String ten = txttentieude.getText();
-       
-        String trangthai = cbbtrangthai.getSelectedItem().toString();
+           String ma = txtmadia.getText();
       
-        
-        String loai=null;
-         List<Loai> ls = dsl.doctubang();   
-        for (Loai l : ls) {
-            if (l.getTenloai().equalsIgnoreCase(cbbloai.getSelectedItem().toString())) {
-                loai = l.getMaloai();
+    
+         String trangthai = cbbtrangthaidia.getSelectedItem().toString();
+        String tieude=null;
+         List<Tieude> ls = dstd.doctubang();   
+        for (Tieude td : ls) {
+            if (td.getTentieude().equalsIgnoreCase(cbbtieude.getSelectedItem().toString())) {
+                tieude = td.getMatieude();
             }
         }
-        if (!(txtmatieude.getText().equalsIgnoreCase("") || txttentieude.getText().equalsIgnoreCase("") || txtsoluong.getText().equalsIgnoreCase("") || txtdongia.getText().equalsIgnoreCase(""))) {
-            if (kiemtrarangbuoctieude() == true) {
-               int sl = Integer.parseInt(txtsoluong.getText());
-                 double dongia = Double.parseDouble(txtdongia.getText());
-                Tieude td = new Tieude(ma,ten,sl,trangthai,dongia,new Loai(loai));
-                if (dstd.kttrung(td.getMatieude()) == false) {
-                    if (dstd.themtieude(td)) {
+        if (!(txtmadia.getText().equalsIgnoreCase("") )) {
+            if (kiemtrarangbuocdia()== true) {
+              Dia d = new Dia(ma,dstd.timtieudetheoid(tieude), trangthai);
+                System.out.println(d);
+                if (dsd.kttrung(d.getMadia()) == false) {
+                    if (dsd.themdia(d)) {
+                       Tieude td = dstd.timtieudetheoid(d.getMatieude().getMatieude());
+                  //      datamodel1.addRow(new Object[]{td.getMatieude(),td.getTentieude(),td.getSoluong(),td.getTrangthai(),td.getDongiathue(),l.getMaloai()});
+                         datamodel2.addRow(new Object[]{d.getMadia(),td.getMatieude(),d.getTrangthai()});
 
-                       Loai l =dsl.timloaitheoid(td.getMaloai().getMaloai());
-
-                        datamodel1.addRow(new Object[]{td.getMatieude(),td.getTentieude(),td.getSoluong(),td.getTrangthai(),td.getDongiathue(),l.getMaloai()});
                         JOptionPane.showMessageDialog(this, "Thêm thành công");
-                        txtmatieude.setText("");
-                        txtmatieude.setEnabled(true);
-                        txttentieude.setText("");
-                        txttentieude.setEnabled(true);
-                        txtsoluong.setText("");
-                        txtsoluong.setEnabled(true);
-                       cbbtrangthai.setEnabled(true);
-                        cbbtrangthai.setSelectedIndex(0);
-                        txtdongia.setText("");
-                        txtdongia.setEnabled(true);
-                        cbbloai.setEnabled(true);
-                        cbbloai.setSelectedIndex(0);
+                        txtmadia.setText("");
+               
+                        txtmadia.setEnabled(true);
+                       
+                       cbbtieude.setEnabled(true);
+                        cbbtieude.setSelectedIndex(0);
+                       
+                        cbbtrangthaidia.setEnabled(true);
+                        cbbtrangthaidia.setSelectedIndex(0);
 
                     }
                 } else {
@@ -2063,7 +2057,7 @@ public class Admin extends javax.swing.JFrame {
 
         
         
-        */
+     
     }//GEN-LAST:event_btthemdiaActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -2450,22 +2444,10 @@ public class Admin extends javax.swing.JFrame {
     }
     
         public boolean kiemtrarangbuocdia(){
-        if (!messloimatieude.getText().equalsIgnoreCase("")) {
+        if (!messloimadia.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ");
             return false;
-        } else if (!messloitentieude.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ");
-            return false;
-        } else if (!messloisoluong.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ");
-            return false;
-        } else if (!messloitrangthai.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ");
-            return false;
-        } else if (!messloidongia.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ");
-            return false;
-        }
+        } 
         return true;
     }
     

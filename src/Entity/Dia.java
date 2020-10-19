@@ -29,6 +29,10 @@ public class Dia {
         this.trangthai = trangthai;
     }
 
+    public Dia(String ma, String tieude, String trangthai) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getMadia() {
         return madia;
     }
